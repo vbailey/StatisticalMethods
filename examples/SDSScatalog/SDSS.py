@@ -1,5 +1,5 @@
-import pandas as pd
 from __future__ import print_function
+import pandas as pd
 
 def select(sql, filename='SDSSobjects.csv'):
     """
