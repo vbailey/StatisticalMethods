@@ -19,6 +19,16 @@ class Cepheids(object):
         self.colors = dict(zip(self.list_hosts(), colornames))
         self.xlimits = np.array([0.3, 2.3])
         self.ylimits = np.array([30.0, 17.0])
+        self.redshifts = {}
+        self.redshifts['1309'] = 0.007125
+        self.redshifts['3021'] = 0.005140
+        self.redshifts['3370'] = 0.004266
+        self.redshifts['3982'] = 0.003699
+        self.redshifts['4038'] = 0.005477
+        self.redshifts['4258'] = 0.001494
+        self.redshifts['4536'] = 0.006031
+        self.redshifts['4639'] = 0.003395
+        self.redshifts['5584'] = 0.005464
         return
 
     def list_hosts(self):
@@ -78,6 +88,23 @@ class Cepheids(object):
         Matrix = np.array([[Sxx, Sx], [Sx, So]])
         vector = np.array([Sxy, Sy])
         return Matrix, vector
+
+    def negative_log_likelihood(self, theta):
+        """
+        Computes -log L(theta)
+
+        Parameters
+        ----------
+        theta : float, ndarray
+            parameters being fitted, (a,b)
+
+        Returns
+        -------
+        0.5 * chisq
+        """
+        a, b = theta[0], theta[1]
+        chisq = np.sum(((self.mobs - a * self.logP - b) / self.sigma)**2)
+        return 0.5 * chisq
 
 # ----------------------------------------------------------------------
 # Data analysis functions
